@@ -1,0 +1,26 @@
+{% comment "Pendiente" %}
+
+No logro a parciar el ORM 
+En el view hago filter() y lurgo paso por <context>
+pero haciendo loop no salen los datos con .id por ejemplo
+
+Que sera??
+
+Solucion: parece que cuando es un valor no resulta, u cuando
+es >1 resulta bien
+
+{% endcomment %}
+
+<div>
+    <p>Proveedores: PENDIENTE REVISAR MEJOR</p>
+    {% if tipo == 'C' %}
+        {% for c in compras %}
+        <p>{{c.folio}} {{c.monto_total}} {{c.es_pagado}}</p>
+        {% endfor %}
+    {% elif tipo == 'A' %}
+        {% for v in ventas %}
+        <p>{{v.folio}} {{v.monto_total}} {{v.es_pagado}}</p>
+        {% endfor %}
+    {% endif %}
+
+</div>

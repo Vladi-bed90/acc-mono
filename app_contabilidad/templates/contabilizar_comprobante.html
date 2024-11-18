@@ -1,0 +1,259 @@
+{% include 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+
+<hr>
+<p>Detalle Comprobante:
+{% if comprobante.numero_comprobante|make_list|first == "1" %}
+    <b>Origen .:. Banco</b></p>
+{% elif comprobante.numero_comprobante|make_list|first == "2" %}
+    <b>Origen .:. Pendiente</b></p>
+{% elif comprobante.numero_comprobante|make_list|first == "3" %}
+    <b>Origen .:. Libro Compras</b></p>
+{% elif comprobante.numero_comprobante|make_list|first == "4" %}
+    <b>Origen .:. Libro Ventas</b></p>
+{% else %}
+    </p>
+{% endif %}
+
+
+<!--Comprobante-->
+<table id="detalle-comprobante-contabilizado" class="table">
+    <thead>
+        <tr>
+            <th>N° Comprobante</th>
+            <th>Fecha*</th>
+            <th>Tipo</th>
+            <th>Glosa</th>
+        </tr>
+    </thead>
+    <tbody>
+            <td>{{comprobante.numero_comprobante}}</td>
+            <td>{{comprobante.fecha|date:"d/m/Y"}}</td>
+            {% if comprobante.tipo == 'A'%}
+                <td><span class="badge bg-success">{{comprobante.tipo}}</span></td>
+            {% elif comprobante.tipo == 'C'%}
+                <td><span class="badge bg-danger">{{comprobante.tipo}}</span></td>
+            {% else %}
+                <td><span class="badge bg-light">{{comprobante.tipo}}</span></td>
+            {% endif %}
+            <td>{{comprobante.glosa}}</td>
+    </tbody>
+</table>
+<!--End Comprobante-->
+
+
+<div class="row">
+    
+    <div class="col-3">
+        {% if datos_mov2 %}
+            {% for d in datos_mov2 %}
+                <li class="mb-0"><small>{{d}}</small></li>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="col-3">
+        <!--<p><abbr title="attribute" class="initialism"><mark><em>{{datos_mov}}</em></mark></abbr></p>-->
+    </div>
+    <div class="col-3">
+        <div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
+            <div class="card-header text-center">Total Debe</div>
+            <div class="card-body">
+            <h5 class="card-title text-center"><output id="total_debe">0</output></h5>      
+            </div>
+        </div>      
+    </div>
+    <div class="col-3">   
+        <div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
+            <div class="card-header text-center">Total Haber</div>
+            <div class="card-body">
+            <h5 class="card-title text-center"><output id="total_haber">0</output></h5>      
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-sm btn-warning"
+_="on click if #total_debe.value is equal to #total_haber.value then put true into the next <output/> then remove @disabled from #submit-all else put false into the next <output/> then add @disabled to #submit-all end">
+    Revisar
+   </button>
+   <output id="output">--</output>
+
+<p id="coa"></p>
+<p id="cuenta_test"></p>
+<hr>
+
+
+<!-- Form: Registros Contables -->
+
+<form hx-post="{% url 'contabilizar-comprobante' empresa registro_form.comprobante.value %}"
+       hx-trigger="click from:#submit-all"
+       hx-swap="none">
+    <div name="registro_comprobante" id="registro_comprobante">
+
+        <table class="table table-sm table-striped table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col" style=""></th>
+                    <th scope="col" style="width: 15%">Cuenta</th>
+                    <th scope="col" style="width: 7%">Centro Costos</th>
+                    <th scope="col" style="width: 7%">Sucursal</th>
+                    <th scope="col">Debe</th>
+                    <th scope="col">Haber</th>
+                    <th scope="col">Auxiliar</th>
+                    <th scope="col">N° Doc</th>
+                    <th scope="col">Eliminar</th>
+                </tr>
+            </thead>
+            <tbody id="registro_comprobante_table">
+                    {% include 'partials/registro_comprobante_form.html'%}
+                    {% include 'partials/registro_comprobante_form.html'%}
+                    {% include 'partials/registro_comprobante_form.html'%}
+            </tbody> 
+        </table> 
+    </div>
+</form>
+
+<!-- End Form: Registros Contables -->
+
+<div class="my-4">
+<!-- Button - Agregar Registro (Fila Adicional) -->
+
+    <button type="button" class="btn btn-success me-2 btn-sm"
+    hx-get="{% url 'add-registro' empresa pk_comp %}"
+    hx-target="#registro_comprobante_table"
+    hx-swap="beforeend"
+    >+ Add Form</button>
+
+<!-- End Button - Agregar Registro (Fila Adicional) -->
+
+<!-- Button - Submit todo -->
+
+    <button type="submit" 
+            class="btn btn-primary btn-sm" 
+            id="submit-all" 
+            disabled
+            _="on mutation of anything log 1"
+    >Submit All</button>
+
+<!-- End Button - Submit todo -->
+</div>
+
+<!--Add Auxiliar Modal-->
+<button 
+	hx-get="{% url 'add-auxiliar' empresa %}" 
+	hx-target="#add_auxiliar_modal" 
+	hx-trigger="click"
+    data-bs-toggle="modal"
+    data-bs-target="#add_auxiliar_modal"
+	class="btn btn-primary btn-sm">Agregar Auxiliar</button>
+
+<div id="add_auxiliar_modal"
+    class="modal modal-blur fade"
+    style="display: none"
+    aria-hidden="false"
+    tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<!--End Add Auxiliar Modal--> 
+
+
+
+<script src="{% static 'jquery-searchbox.js' %}"></script>
+<script>
+    //$('.js-searchBox').searchBox();
+</script>
+
+
+<script>
+
+    // Data Cuentas Contables
+    var obj = {{ obj|safe }};
+
+    function getRow(value, id) {
+        //console.log("The Value is:",value,"The ID is:", id);
+        // id => fila del evento Click
+        let row = document.getElementById(id);
+        // Busca el <id> de la fila
+        let x = obj.find(x => x.id === parseInt(value));
+        //console.log("ES",x);
+        // Busca elementos para hacer la prueba 
+        let cc = row.querySelector("#id_centro_costo");
+        let suc = row.querySelector("#id_sucurasl");
+        let aux = row.querySelector("#id_cliente_proveedor");
+        let numero_documento = row.querySelector("#numero_documento");
+        
+        // Revisamos si la cuenta contable exige Centro de Costos
+        if (x.es_centro_de_costos === true) {
+            cc.removeAttribute('readonly');
+            cc.style.background = null;
+        } else if (x.es_centro_de_costos === false) {
+            cc.setAttribute('readonly', '');
+            cc.style.background = 'black';
+            cc.value = "";
+        } else {
+            console.log('Error CC, revisar codigo');
+        }
+
+        // Revisamos si la cuenta contable exige Sucursal
+        if (x.es_sucursal === true) {
+            suc.removeAttribute('readonly');
+            suc.style.background = null;
+        } else if (x.es_sucursal === false) {
+            suc.setAttribute('readonly', '');
+            suc.style.background = 'black';
+            suc.value = "";
+        } else {
+            console.log('Error SUC, revisar codigo');
+        }
+
+        // Revisamos si la cuenta contable exige Auxiliar
+        if (x.es_auxiliar === true) {
+            aux.removeAttribute('readonly');
+            numero_documento.removeAttribute('readonly');
+            aux.style.background = null;
+            numero_documento.style.background = null;
+        } else if (x.es_auxiliar === false) {
+            aux.setAttribute('readonly', '');
+            aux.style.background = 'black';
+            aux.value = "";
+            numero_documento.setAttribute('readonly', '');
+            numero_documento.style.background = 'black';
+            numero_documento.value = "";
+        } else {
+            console.log('Error AUX, revisar codigo');
+        }
+
+    }
+
+    // No se utiliza, Eliminar despues
+    function numberRows() {
+        let trs = document.getElementsByName('cuenta_name');
+        console.log(trs.length);
+        console.log(trs);
+    }
+
+    function setSelect2(el) {
+        console.log(el);
+        $("#cuenta_id").select2();
+        //el.select2()
+    }
+    /*
+    document.addEventListener(
+        "click", function(){
+            if(event.target.id === 'cuenta_id') {
+                let el = event.target
+                $(el).select2()
+            }
+        });
+
+    //$("#cuenta_id").select2();
+        */
+</script>
+
+
+{% endblock  %}

@@ -1,0 +1,14 @@
+
+
+
+<p>TEST</p>
+
+
+<script type="text/javascript">
+
+    window.addEventListener("click", console.log('click'));
+
+    var obj = {{ obj|safe }};
+    let x = obj.find(x => x.id === 7);
+    console.log(x.es_banco)
+</script>

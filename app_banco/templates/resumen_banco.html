@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load month_tags %}
+
+<!-- Navbar Banco -->
+{% block navbar_secundario %}
+    {% include 'navbar/partials/banco_navbar.html' %}
+{% endblock %}
+
+{% block content %}
+
+<p>Resumen Banco: {% with data|first as data %}
+    {{data.banco__name}}
+{% endwith %}</p>
+
+
+<table class="table table-light table-bordered">
+    <thead>
+      <tr>
+        {% for x in data %}
+        <th scope="col">{{x.month_num|month_name}}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>        
+      <tr>
+        {% for x in data %}
+        <th scope="row">$ {{x.Saldo|intword}}</th>
+        {% endfor %}
+      </tr>        
+    </tbody>
+  </table>
+
+<hr>
+
+{% include 'chart.html' %}
+
+
+
+
+{% endblock %}

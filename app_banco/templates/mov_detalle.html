@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+<div class="p-2 text-primary-emphasis bg-info-subtle border border-info-subtle rounded-3">
+    Banco: <strong>{{banco.name}}</strong> | Empresa: <strong>{{banco.empresa}}</strong>
+  </div>
+<hr>
+
+<p>Detalle Movimiento:</p> 
+<button class="btn btn-info" 
+        hx-get="{% url 'get-mov-detalle-form' empresa banco.id detalle_mov.id %}"
+        hx-target="#detalle_mov_table"
+        hx-trigger="click"
+        >Editar</button>
+<a href="{% url 'get-mov-banco' empresa banco.id %}?tipo={{detalle_mov.cargo_abono}}">Volver</a>
+
+<div class="row">
+<!--Detalle Mov Table-->
+<div class="col-8" id="detalle_mov_table">
+  <table class="table" >
+    <tbody>
+      <tr>
+        <th scope="row">Fecha</th>
+        <td>{{detalle_mov.fecha}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Monto</th>
+        {% if detalle_mov.monto > 0 %}
+          <td class="text-success"><strong>$ {{detalle_mov.monto|intcomma}}</strong></td>
+        {% else %}
+          <td class="text-danger"><strong>($ {{detalle_mov.monto|intcomma}})</strong></td>
+        {% endif %}
+      </tr>
+      <tr>
+        <th scope="row">Descripción</th>
+        <td>{{detalle_mov.descripcion}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Tipo</th>
+        {% if detalle_mov.cargo_abono == "A" %}
+          <td class="text-success"><strong>{{detalle_mov.cargo_abono}}</strong></td>
+        {% else %}
+          <td class="text-danger"><strong>{{detalle_mov.cargo_abono}}</strong></td>
+        {% endif %}
+      </tr>
+      <tr>
+        <th scope="row">Detalle Adicional</th>
+        <td>{{detalle_mov.detalle_adicional}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Banco</th>
+        <td>{{detalle_mov.banco}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Medio de Pago</th>
+        <td>{{detalle_mov.medio_de_pago}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!--End Detalle Mov Table-->
+
+<!--Info Apoyo Mov-->
+<div class="col-4 bg-light bg-gradient">
+<button type="button" class="btn btn-sm btn-dark" 
+        hx-get="{% url 'get-info-apoyo-mov' empresa banco.id detalle_mov.id %}"
+        hx-target="#info-apoyo-mov"
+        hx-trigger="click"
+        >Buscar Info</button>
+
+  <div id="info-apoyo-mov">
+    
+  </div>
+</div>
+<!--End Info Apoyo Mov-->
+
+</div>
+{% endblock %}

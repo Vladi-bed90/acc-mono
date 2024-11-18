@@ -1,0 +1,8 @@
+<p>
+    <a class="btn btn-sm btn-warning" 
+        hx-get="{% url 'modificar-medio-de-pago' empresa banco_id mov_id %}"
+        hx-trigger="click"
+        hx-target="#mp_{{mov_id}}"
+        ><i class="fa-regular fa-pen-to-square"></i> 
+    </a> {{mov.medio_de_pago}}
+</p>

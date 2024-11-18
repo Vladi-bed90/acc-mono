@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<p>Info Banco</p>
+
+{% for banco in bancos %}
+<div class="col-2">
+<div class="card bg-light w-100 text-center" style="width: 18rem;">
+    <img class="card-img-top" src="..." alt="Card image cap">
+    <div class="card-header">
+        <h5 class="card-title">{{ banco.name }} ({{banco.currency}})</h5>
+    </div>
+    <div class="card-body">
+      <p class="card-text">Tipo: {{banco.tipo_cuenta}}</p>
+      <p class="card-text">N°: {{banco.numero_cuenta}}</p>
+      <p class="card-text">Empresa: {{banco.empresa}}</p>
+      <a href="{% url 'get-resumen-banco' empresa banco.pk  %}" class="btn btn-primary">Continuar</a>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<hr>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load render_table from django_tables2 %}
+
+{% block navbar_secundario %}
+    {% include 'navbar/partials/contabilidad_navbar.html' %}
+{% endblock %}
+
+
+{% block content %}
+
+<form class="form" method="POST" action="{% url 'get-info-contable' empresa %}">
+    {% csrf_token %}
+    <select class="form-select-sm" name="report_select">
+        <option></option>
+        <option>Info General</option>
+        <option>Estado de Resultado - Mensual</option>
+        <option>Estado de Resultado - Acumulado</option>
+        <option>Estado de Resultado - Otro</option>
+        <option>Balance Acumulado</option>
+        <option>Balance 2</option>
+        <option>Balance 3</option>
+    </select>
+
+    <!-- La idea es tener Form despues de eligir una option de arriba y luego se genera el Informe  -->
+
+    <select class="form-select-sm" name="anio_select">
+        <option></option>
+        <option>2022</option>
+        <option>2023</option>
+        <option>2024</option>
+    </select>
+
+    <button type="submit" class="btn btn-sm btn-dark">Go</button>
+</form>
+
+
+{% render_table test_table %}
+
+
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% include 'base.html' %}
+
+
+
+{% block content %}
+
+<hr>
+<p><mark>Detalle Comprobante:</mark>
+
+{% if comprobante.numero_comprobante|make_list|first == "1" %}
+    <b>Origen .:. Banco</b></p>
+{% elif comprobante.numero_comprobante|make_list|first == "2" %}
+    <b>Origen .:. Pendiente</b></p>
+{% elif comprobante.numero_comprobante|make_list|first == "3" %}
+    <b>Origen .:. Libro Compras</b></p>
+{% elif comprobante.numero_comprobante|make_list|first == "4" %}
+    <b>Origen .:. Libro Ventas</b></p>
+{% else %}
+    </p>
+{% endif %}
+
+<!--Comprobante-->
+<table id="detalle-comprobante-contabilizado" class="table">
+    <thead>
+        <tr>
+            <th>N° Comprobante</th>
+            <th>Fecha*</th>
+            <th>Tipo</th>
+            <th>Glosa</th>
+        </tr>
+    </thead>
+    <tbody>
+            <td>{{comprobante.numero_comprobante}}</td>
+            <td>{{comprobante.fecha|date:"d/m/Y"}}</td>
+            <td>{{comprobante.tipo}}</td>
+            <td>{{comprobante.glosa}}</td>
+    </tbody>
+</table>
+<!--End Comprobante-->
+
+<hr>
+<p><mark>Registros Contables:</mark></p>
+
+<!--Registros Contables-->
+<table id="detalle-comprobante-contabilizado" class="table table-sm table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Cuenta</th>
+            <th>Centro Costos</th>
+            <th>Sucursal</th>
+            <th>Debe</th>
+            <th>Haber</th>
+            <th>Auxiliar</th>
+            <th>N° Doc</th>
+        </tr>
+    </thead>
+    <tbody>
+            {% for r in registro_comprobante %}
+            <tr>
+                <td>{{r.cuenta_name}}</td>
+                <td class="{% if r.centro_costo %}Default{% else %}bg-dark text-dark{% endif %}">{{r.centro_costo}}</td>
+                <td class="{% if r.sucurasl %}Default{% else %}bg-dark text-dark{% endif %}">{{r.sucurasl}}</td>
+                <td class="text-center">$ {{r.debe|floatformat:"2g"}}</td>
+                <td class="text-center">$ {{r.haber|floatformat:"2g"}}</td>
+                <td class="{% if r.cliente_proveedor %}Default{% else %}bg-dark text-dark{% endif %}">{{r.cliente_proveedor}}</td>
+                <td class="{% if r.numero_documento %}Default{% else %}bg-dark text-dark{% endif %}">{{r.numero_documento}}</td>
+            </tr>
+            {% endfor %}
+    </tbody>
+</table>
+<!--End Registros Contables-->
+
+{% endblock  %}

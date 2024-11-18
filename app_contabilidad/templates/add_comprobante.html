@@ -1,0 +1,48 @@
+{% include 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<hr>
+<p>Agregar Comprobante</p>
+
+
+
+<!-- Form: Comprobante -->
+
+<form method="POST">
+    {% csrf_token %}
+    <h6 class="my-0" style="font-size: 13px;"><mark># Se Generará Automaticamente - Si Vacio </mark></h6>
+    <div class="row">
+        <div name="numero_comprobante" class="col-2">
+            <div class="form-floating">
+                {{comprobante_form.numero_comprobante}}
+                <label for="id_numero_comprobante">N° Comprobante*</label>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="form-floating">
+                {{comprobante_form.fecha}}
+                <label for="id_fecha">Fecha*</label>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="form-floating">
+                {{comprobante_form.tipo}}
+                <label for="id_tipo">Tipo*</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-floating">
+                {{comprobante_form.glosa}}
+                <label for="id_glosa">Glosa</label>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-sm btn-success">Agregar</button>
+</form>
+<hr>
+
+<!-- End Form: Comprobante -->
+
+{% endblock  %}

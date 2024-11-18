@@ -1,0 +1,26 @@
+{% load random_numbers %}
+{% load widget_tweaks %}
+
+    <tr id="row_test_{% random_int %}" class="test_row" value="333" hx-get="{% url 'get-info-cuenta-contable' 1 %}" hx-trigger="change from next select" hx-swap="none" hx-include="closest .test_row" hx-vals='{"myVal": "My Value"}'>
+        <td>{{registro_form.comprobante.as_hidden}}</td>
+        
+        <td hx-on="change: console.log(event.target.value), getRow(event.target.value ,event.target.parentElement.parentElement.id)">
+            {{registro_form.cuenta_name}}
+        </td>
+        <td>{{registro_form.centro_costo}}</td>
+        <td>{{registro_form.sucurasl}}</td>
+        <td class="text-center">{{registro_form.debe}}</td>
+        <td>{{registro_form.haber}}</td>
+        <td>
+            <div class="input-group input-group-sm">
+                {{registro_form.cliente_proveedor}}
+                <button class="btn btn-sm btn-success" id="btn-auxiliar">+          
+                </button>
+            </div>
+        </td>
+        <td>{{registro_form.numero_documento}}</td>
+        <td><button class="btn btn-sm btn-danger" type="submit"
+            hx-on="click: this.closest('tr').remove()"> X </button></td>
+
+    </tr>
+

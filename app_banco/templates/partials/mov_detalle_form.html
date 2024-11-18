@@ -1,0 +1,8 @@
+<form hx-post="{% url 'get-mov-detalle-form' empresa banco mov_id %}" hx-trigger="click from:#submit-mov-form">
+    <table class="table">
+        
+            {{form.as_table}}    
+        
+    </table>
+    <button class="btn btn-primary" type="button" value="Submit" id="submit-mov-form">Submit</button>
+</form>

@@ -1,0 +1,40 @@
+<table id="estado-de-resultado-mensual" class="table">
+    <thead class="table-light">
+        <tr class="text-end">
+            <th class="text-start" scope="col"># Cuenta</th>
+            <th class="text-start" scope="col">Nombre Cuenta</th>
+            {% for month in month_num %}
+                {% if forloop.counter > 2  %}
+                    <th class="text-start" scope="col">{{month}}</th>
+                {% endif %}
+            {% endfor %}
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for x in eerr_mensual %}
+            <tr class="text-start">            
+                <th scope="row">{{x.cuenta_name__number}}</th>
+                <th scope="row">{{x.cuenta_name__name}}</th>
+                <td class="text-start">{{x.1}}</td>
+                <td class="text-start">{{x.2}}</td>
+                <td class="text-start">{{x.3}}</td>
+                <td class="text-start">{{x.4}}</td>
+                <td class="text-start">{{x.5}}</td>
+                <td class="text-start">{{x.6}}</td>
+                <td class="text-start">{{x.7}}</td>
+                <td class="text-start">{{x.8}}</td>
+                <td class="text-start">{{x.9}}</td>
+                <td class="text-start">{{x.10}}</td>
+                <td class="text-start">{{x.11}}</td>
+                <td class="text-start">{{x.12}}</td>                
+            </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot class="table-light">
+        <tr class="text-end">
+            <td class="fw-bold text-start">TOTAL</td>
+            <td class="fw-bold test">jj</td>
+        </tr>
+      </tfoot>
+</table>

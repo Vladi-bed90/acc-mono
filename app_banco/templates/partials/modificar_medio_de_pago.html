@@ -1,0 +1,18 @@
+
+
+<form>
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-8">
+            {{form}}
+        </div>
+        <div class="col-4">
+            <button class="btn btn-sm btn-success" type="submit" 
+            hx-post={% url 'modificar-medio-de-pago' empresa banco_id mov_id %} 
+            hx-trigger="click" 
+            hx-target="#mp_{{mov_id}}"
+            >✔</button>
+            <button class="btn btn-sm btn-danger">✘</button>
+        </div>
+    </div>
+</form>

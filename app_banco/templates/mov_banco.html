@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load render_table from django_tables2 %}
+
+<!-- Navbar Banco -->
+{% block navbar_secundario %}
+    {% include 'navbar/partials/banco_navbar.html' %}
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<!--Mov Table-->
+
+{% render_table table %}
+
+<!--End Mov Table-->
+
+
+
+{% endblock %}

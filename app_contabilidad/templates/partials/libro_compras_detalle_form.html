@@ -1,0 +1,14 @@
+
+<div class="col-6" id="detalle-dte-libro-compra">
+    <h4><mark>Modificando</mark> - Detalle DTE:</h4>
+    <form method="POST">
+        {% csrf_token %}
+    <table class="table table-sm align-middle table-bordered">
+        {{compra_form.as_table}}            
+    </table>
+    <button class="btn btn-sm btn-danger" onClick="window.location.reload()">Cancelar</button>
+    <button type="submit" class="btn btn-sm btn-success">Guardar Cambios(PEN)</button>
+    </form>
+
+</div>
+

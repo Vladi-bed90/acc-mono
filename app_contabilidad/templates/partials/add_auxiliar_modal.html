@@ -1,0 +1,34 @@
+<div id="add-auxiliar-modal" class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">Agregar Auxiliar:</h5>
+      </div>
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div id="result-message">
+            {% if result_message %}
+              <p class="text-success" >{{result_message.message_success}}</p>
+              <p class="text-danger">{{result_message.message_failure}}</p><p> {{result_message.rut}}</p>
+              <p>{{result_message.razon_social}}</p>
+            {% endif %}
+          </div>
+          <form id="add-auxiliar-form" method="POST" class="form" 
+            hx-post="{% url 'add-auxiliar' empresa %}"
+            hx-trigger=""
+            hx-target="#add-auxiliar-modal"
+            hx-swap="outerHTML"
+            >
+            {% csrf_token %}
+            
+          {{add_aux_form}}
+          <input type="hidden" value= {% if result_message.status  %} {{result_message.status}} {% else %} "False" {% endif %} name="es_agregar">
+          <br> 
+          <button type="Submit" class="btn btn-primary">Revisar</button>
+          <button type="Submit" class="btn btn-success" {% if result_message.message_failure %} disabled {% elif result_message.message_success %} {% else %} disabled {% endif %}>Agregar</button>
+        </form>
+      </div>
+      <!-- END Modal Body -->    
+    </div>
+    <!-- END Modal Header -->
+  </div>

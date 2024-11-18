@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block navbar_secundario %}
+
+    {% include 'navbar/partials/contabilidad_navbar.html' %}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-6" id="detalle-dte-libro-compra">
+        <h4>Detalle DTE:</h4>
+        <table class="table table-sm align-middle table-bordered">
+
+            <!--{{compra_form.as_table}} -->
+
+            <tbody>
+                <tr>
+                    <th>Empresa:</th>
+                    <td class="text-center">{{compra.empresa}}</td>
+                </tr>
+                <tr>
+                    <th>Tipo Documento:</th>
+                    <td class="text-center">{{compra.tipo_documento}}</td>
+                </tr>
+                <tr>
+                    <th>Folio:</th>
+                    <td class="text-center  fw-bolder">{{compra.folio}}</td>
+                </tr>
+                <tr>
+                    <th>Fecha:</th>
+                    <td class="text-center">{{compra.fecha_documento|date:"d/m/Y"}}</td>
+                </tr>
+                <tr>
+                    <th>Proveedor:</th>
+                    <td class="text-center">{{compra.proveedor}}</td>
+                </tr>
+                <tr>
+                    <th>Monto Exento:</th>
+                    <td class="text-center">$ {{compra.monto_exento|floatformat:"-2g"}}</td>
+                </tr>
+                <tr>
+                    <th>Monto Neto:</th>
+                    <td class="text-center">$ {{compra.monto_neto|floatformat:"-2g"}}</td>
+                </tr>
+                <tr>
+                    <th>Monto Iva:</th>
+                    <td class="text-center">$ {{compra.monto_iva|floatformat:"-2g"}}</td>
+                </tr>
+                <tr>
+                    <th>Monto Total:</th>
+                    <td class="text-center fw-bolder">$ {{compra.monto_total|floatformat:"-2g"}}</td>
+                </tr>
+                <tr>
+                    <th>Detalle:</th>
+                    <td class="text-center">{% if compra.detalle%} {{compra.detalle}} {% endif %}</td>
+                </tr>
+            </tbody>
+        </table>        
+        <button class="btn btn-sm btn-warning"
+                hx-get="{% url 'get-detalle-compra-edit-form' empresa compra_pk %}"
+                hx-trigger="click"
+                hx-target="#detalle-dte-libro-compra"
+                hx-swap="outerHTML"
+        >Editar</button>
+    
+    </div>
+    
+    <div class="col-6">
+        <h4>Historial Proveedor:</h4>
+
+        <label for="exampleDataList" class="form-label">Datalist example</label>
+        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
+        <datalist id="datalistOptions">
+            {% for c in coa %}
+            <option value="{{ c.name }}">
+            {% endfor %}
+        </datalist>
+        {{ compra.es_done }}
+
+        
+    </div>
+</div>
+
+{% endblock %}

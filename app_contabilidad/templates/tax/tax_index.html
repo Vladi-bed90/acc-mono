@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block navbar_secundario %}
+
+    {% include 'navbar/partials/contabilidad_navbar.html' %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="g-3 p-1 d-flex justify-content-center align-items-center">
+    <h3>Impuestos</h3>
+</div>
+<hr class="p-0 m-1">
+<div class="row g-3 p-1 align-items-start">
+    <div class="col-3">
+        <form class="form-inline" method="POST" action="{% url 'get-index-tax' empresa %}">
+            {% csrf_token %}
+            <div class="d-flex form-inputs">
+            <select class="form-select form-select-sm" id="tax_mes_select" name="tax_mes_select">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+            <select class="form-select form-select-sm ms-1" id="tax_anio_select" name="tax_anio_select">
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024" selected>2024</option>
+            </select>
+            <button type="submit" class="btn btn-primary btn-sm ms-1" id="tax_buscar_btn">Consultar</button>
+            </div>
+        </div>
+    </form>
+    
+    
+</div>
+
+
+
+<div class="row">
+    <div id="tax_left_col" class="col-3">
+        {# Resumen Mensual Table #}
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Resumen</th>
+                    <th class="text-end">Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Total Debito:</td>
+                    <td class="text-end">$ {{total_debito|intcomma}}</td>
+                </tr>
+                <tr>
+                    <td>Total Credito:</td>
+                    <td class="text-end">$ {{total_credito|intcomma}}</td>
+                </tr>
+                <tr>
+                    <td>Total a Pagar:</td>
+                    <td class="text-end">$ {{por_pagar|intcomma}}</td>
+                </tr>
+            </tbody>
+        </table>
+        {# End Resumen Mensual Table #}
+    </div>
+    <div class="col-9">
+
+    </div>
+</div>
+
+<div class="row">
+    <div id="tax_resumen" class="col">
+
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+
+
+<!--Custom JS-->
+{% block custom_js %}
+
+
+<script>
+
+    let h = 1;
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
