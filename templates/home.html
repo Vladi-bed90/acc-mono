@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">    
+    <!--Font Awsome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <!--_hyperscript-->
+    <script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
+    <title>Afe</title>
+    <!--Alpine.js-->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!--Custom CSS-->
+
+
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+
+
+{% if user.is_authenticated %}
+    <p>Hi {{ user.username }}!</p>
+{% else %}
+    <p>You are not logged in.</p>
+    <a href="{% url 'login' %}">Log In</a>
+{% endif %}
+
+
+<h5>Elige Empresa</h5>
+
+<div class="row">
+    {% for empresa in data %}
+    <div class="col-2">
+        <div class="card bg-light w-100 text-center">
+        <div class="card-header">
+            <h5 class="card-title">{{ empresa.nombre }}</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">Rut: {{ empresa.rut }}</p>
+          <p class="card-text">Pais: {{ empresa.country }}</p>
+          <p class="card-text">Moneda: {{ empresa.currency }}</p>
+          <p class="card-text">Uuid: {{ empresa.random_short_uuid }}</p>
+          <a href="{% url 'empresa-homepage' empresa.random_short_uuid %}" class="btn btn-primary">Continuar</a>
+        </div>
+        </div>
+        
+    </div>
+    {% endfor %}
+</div>
+
+
+</body>
+</html>

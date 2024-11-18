@@ -1,0 +1,83 @@
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+        <div class="col-6">
+        <a href="{% url 'all-comprobantes' empresa %}" class="btn btn-sm btn-info" >Comprobantes</a> |
+        <a href="{% url 'get-libro-compras' empresa %}" class="btn btn-sm btn-info" >Libro Compras
+            {% if compras_pendientes > 0 %}
+            <span class="badge rounded-pill bg-danger">{{compras_pendientes}}</span>
+            {% endif %}
+        </a> 
+        <a href="{% url 'get-libro-ventas' empresa %}" class="btn btn-sm btn-info" >Libro Ventas
+            {% if ventas_pendientes > 0 %}
+            <span class="badge rounded-pill bg-danger">{{ventas_pendientes}}</span>
+            {% endif %}
+        </a> 
+        <a href="#" class="btn btn-sm btn-info" >Honorarios</a> | 
+        <a href="{% url 'get-index-tax' empresa %}" class="btn btn-sm btn-info" >Impuestos</a> | 
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+            <!--Mini Nav - Comprobantes-->
+            {% if '/contabilidad/comprobantes/' in request.path %}
+                <a href="{% url 'all-comprobantes' empresa %}" class="btn btn-sm btn-info" > Todos </a>
+                <a href="{% url 'all-comprobantes' empresa %}?es_done=False" class="btn btn-sm btn-danger" > Pendientes </a>
+                <a href="{% url 'add-comprobante' empresa %}" class="btn btn-sm btn-success" > + Comprobante </a>
+            {% endif %}
+            <!--End Mini Nav - Comprobantes-->
+            <!--Mini Nav - Libro Compras-->
+            {% if '/contabilidad/libro_compras/' in request.path %}
+                {% if mes_options and anio_options %}
+                <!--Pendiente terminar este filtro, o utilizar django-filters-->
+                    <form action="{% url 'get-libro-compras' empresa %}" method="GET">
+                        <div class="d-flex form-inputs">
+                        <label for="mes-select" class="col-form-label-sm">Periodo: </label>    
+                        <select id="mes-select" class="form-select-sm" name="mes" required>
+                            {% for m in mes_options %}
+                                <option value="{{m}}" {% if m == mes %} selected {% endif %}>{{m}}</option>
+                            {% endfor %}
+                        </select>
+                        <select class="form-select-sm" name="anio" required>
+                            {% for a in anio_options %}
+                                <option value="{{a}}" {% if a == anio %} selected {% endif %}>{{a}}</option>
+                            {% endfor %}
+                        </select>
+                    
+                        <button type="submit" class="btn btn-sm btn-info" > OK </button> |
+                    </div>
+                    </form>
+                {% endif %}
+                <a href="{% url 'get-libro-compras' empresa %}?todos=True" class="btn btn-sm btn-info" > Todos </a>
+                <a href="{% url 'get-libro-compras' empresa %}?pendientes=True" class="btn btn-sm btn-danger" > Pendientes </a>
+                <a href="#" class="btn btn-sm btn-success" > + Compra </a>
+            {% endif %}
+            <!--End Mini Nav - Libro Compras-->
+            <!--Mini Nav - Libro Ventas-->
+            {% if '/contabilidad/libro_ventas/' in request.path %}
+            <a href="{% url 'magic-libro-ventas' empresa %}" class="btn btn-sm btn-info" > Magic </a> |
+            {% if mes_options and anio_options %}
+                <!--Pendiente terminar este filtro, o utilizar django-filters-->
+                    <form action="{% url 'get-libro-ventas' empresa %}" method="GET">
+                        <div class="d-flex form-inputs">
+                        <label for="mes-select" class="col-form-label-sm">Periodo: </label>    
+                        <select id="mes-select" class="form-select-sm" name="mes" required>
+                            {% for m in mes_options %}
+                                <option value="{{m}}" {% if m == mes %} selected {% endif %}>{{m}}</option>
+                            {% endfor %}
+                        </select>
+                        <select class="form-select-sm" name="anio" required>
+                            {% for a in anio_options %}
+                                <option value="{{a}}" {% if a == anio %} selected {% endif %}>{{a}}</option>
+                            {% endfor %}
+                        </select>
+                    
+                        <button type="submit" class="btn btn-sm btn-info" > OK </button> |
+                    </div>
+                    </form>
+                {% endif %}
+                <a href="#" class="btn btn-sm btn-info" > Todos </a>
+                <a href="{% url 'get-libro-ventas' empresa %}?pendientes=True" class="btn btn-sm btn-danger" > Pendientes </a>
+                <a href="#" class="btn btn-sm btn-success" > + Venta </a>
+            {% endif %}
+            <!--End Mini Nav - Libro Ventas-->
+        </div>
+    </div>
+</nav>

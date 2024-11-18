@@ -1,21 +1,15 @@
-"""proj_acc_mono URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
+from app_banco.views import test_chart, get_modal
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path('<str:empresa>/banco/', include("app_banco.urls")),
+    path('', include("app_empresa.urls")),
+    path('upload_files/', include("app_upload_files.urls")),
+    path('<str:empresa>/contabilidad/', include("app_contabilidad.urls")),
+    path('chart/', test_chart, name= 'test-chart'), # TEST CHART
+    path('chart/modal/', get_modal, name= 'get-modal'), # TEST MODAL
 ]

@@ -1,0 +1,51 @@
+
+
+<button 
+	hx-get="{% url 'get-modal' %}" 
+	hx-target="#modals-here" 
+	hx-trigger="click"
+    data-bs-toggle="modal"
+    data-bs-target="#modals-here"
+	class="btn btn-primary">Open Modal</button>
+
+<div id="modals-here"
+    class="modal modal-blur fade"
+    style="display: none"
+    aria-hidden="false"
+    tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="row">
+    <div class="col-6">
+        <div>
+            {{chart|safe}}
+        </div>
+    </div>
+    <div class="col-6">
+        <div>
+            {{comp_abono_cargo_chart|safe}}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <div>
+            {{detalle_abonos_chart|safe}}
+        </div>
+    </div>
+    <div class="col-6">
+        <div>
+            
+        </div>
+    </div>
+</div>
+

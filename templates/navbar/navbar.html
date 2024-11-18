@@ -1,0 +1,42 @@
+<nav class="navbar navbar-light">
+    <style>
+        .btn-outline {
+            color: #4fbfa8;
+            background-color: #ffffff;
+            border-color: #4fbfa8;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            border-radius: 0;
+          }
+          
+          
+          .btn-outline:hover,
+          .btn-outline:active,
+          .btn-outline:focus,
+          .btn-outline.active {
+            background: #4fbfa8;
+            color: #ffffff;
+            border-color: #4fbfa8;
+            
+          }
+    </style> 
+
+    <div class="container-fluid">
+        <div class="col-8">
+        Empresa: <strong>{{data_empresa.nombre}}</strong> | Rut: <strong>{{data_empresa.rut}}</strong> |
+        <a href="{% url 'get-info-banco' empresa  %}" class="btn btn-sm btn-outline" >Bancos</a> |
+        <a href="{% url 'get-info-contable' empresa %}" class="btn btn-sm btn-outline" >Contabilidad</a> 
+        <a href="" class="btn btn-sm btn-outline" title="Documentos por Cobrar">DxC</a> 
+        <a href="" class="btn btn-sm btn-outline" title="Documentos por Pagar">DxP</a> |
+        <a href="#" class="btn btn-sm btn-outline disabled" >Cartolas</a> |
+        <a href="#" class="btn btn-sm btn-outline disabled" >Remuneraciones</a> |
+        <a href="#" class="btn btn-sm btn-outline disabled" >Inventario</a> |
+        </div>
+        <div class="col-4 d-flex justify-content-end">
+            <strong>Hola! {{ user.get_username|title }}</strong>
+            <a href="{% url 'logout' %}" class="btn btn-sm btn-outline">Log out</a>
+        </div>
+    </div>
+
+</nav>

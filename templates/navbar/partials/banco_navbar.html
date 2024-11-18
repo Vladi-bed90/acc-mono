@@ -1,0 +1,125 @@
+<div id="contabilidad-navbar" class="p-2 text-primary-emphasis bg-white">
+    <style>
+        .btn-outline {
+            color: #4fbfa8;
+            background-color: #ffffff;
+            border-color: #4fbfa8;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            border-radius: 0;
+          }
+          
+        .btn-outline-red {
+            color: #800020;
+            background-color: #ffffff;
+            border-color: #800020;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            border-radius: 0;
+          }  
+          
+          .btn-outline-red:hover,
+          .btn-outline-red:active,
+          .btn-outline-red:focus,
+          .btn-outline-red.active {
+            background: #800020;
+            color: #ffffff;
+            border-color: #800020;
+            
+          }
+
+          hr{
+            padding: 2px;
+            margin: 2px;    
+          }
+
+
+          .btn-outline:hover,
+          .btn-outline:active,
+          .btn-outline:focus,
+          .btn-outline.active {
+            background: #4fbfa8;
+            color: #ffffff;
+            border-color: #4fbfa8;
+            
+          }
+
+        select.btn-mini {
+            height: auto;
+            line-height: 14px;
+        }
+
+        .select-mini {
+          font-size: 11px;
+          height: 29px;
+          width: 80px;
+        }
+    </style>
+    <div class="row">
+        <div class="col-6">
+          <a href="{% url 'get-mov-banco' empresa banco %}" class="btn btn-sm btn-outline" >Movimientos</a> |
+          <a href="#" title="Tarjeta de Crédito" class="btn btn-sm btn-outline disabled" >TC</a> |
+          <a href="#" class="btn btn-sm btn-outline disabled" >Flujo</a> 
+          <a href="#" class="btn btn-sm btn-outline disabled" >Reportes</a> |
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+
+                <!--Filtro por Periodo-->
+                {% if mes_options and anio_options %}
+                <!--Pendiente terminar este filtro, o utilizar django-filters-->
+                    <form action="{% url 'get-mov-banco' empresa banco %}" method="GET">
+                        <div class="d-flex form-inputs">
+                            <label for="mes-select" class="col-form-label-sm">Periodo: </label>    
+                            <select id="mes-select" class="form-select select-mini" name="mes" required>
+                                {% for m in mes_options %}
+                                    <option value="{{m}}" {% if m == mes %} selected {% endif %}>{{m}}</option>
+                                {% endfor %}
+                            </select>
+                            <select class="form-select select-mini" name="anio" required>
+                                {% for a in anio_options %}
+                                    <option value="{{a}}" {% if a == anio %} selected {% endif %}>{{a}}</option>
+                                {% endfor %}
+                            </select>
+                        
+                            <button type="submit" class="btn btn-sm btn-outline" > OK </button> |
+                        </div>
+                    </form>
+                {% endif %}
+                <!--END Filtro por Periodo-->
+
+          <button href="#" class="btn btn-sm btn-outline" data-bs-toggle="modal" data-bs-target="#subirCartolaModal">Subir Cartola</button> |
+          <a href="{% url 'get-mov-banco' empresa banco %}?tipo=A&mes={{mes}}&anio={{anio}}" class="btn btn-sm btn-outline" >Abonos</a>
+          <a href="{% url 'get-mov-banco' empresa banco %}?tipo=A&mes={{mes}}&anio={{anio}}" class="btn btn-sm btn-outline" >Abonos x Clas</a> |
+          <a href="{% url 'get-mov-banco' empresa banco %}?tipo=C&mes={{mes}}&anio={{anio}}" class="btn btn-sm btn-outline" >Cargos</a>
+          <a href="{% url 'auto-contabilizacion-abono' empresa banco %}" class="btn btn-sm btn-outline-red" >Magic</a>
+        </div>
+    </div>
+</div>
+
+<!-- Upload Cartola Modal -->
+<div class="modal fade" id="subirCartolaModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Subir Cartola Banco:</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+          <div class="modal-body">
+            {{upload_cartola_banco_form}}
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Subir</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- END Upload Cartola Modal -->
+
+
+<hr/>
